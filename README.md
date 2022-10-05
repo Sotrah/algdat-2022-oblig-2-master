@@ -3,7 +3,7 @@
 Denne oppgaven er en innlevering i Algoritmer og Datastrukturer. 
 Oppgaven er levert av følgende studenter:
 * Joacim Siring Sørlle, S341549, s341549@oslomet.no
-* Jonas Olsson, S341549, s341549@oslomet.no
+* Jonas Olsson, S364699, s364699@oslomet.no
 * ...
 
 # Arbeidsfordeling

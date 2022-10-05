@@ -40,8 +40,22 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 
+    // Jonas
     public DobbeltLenketListe(T[] a) {
-        throw new UnsupportedOperationException();
+        // Del av oppgave 1
+        /*
+        * sjekk om a er null og kast evt exception
+        * sjekk a ikke er null og skriv så en for-løkke som oppretter
+        et hode med den første noden i tabellen.
+        * øk tellevariabel med 1
+        * bryt ut av gjeldende løkke når hode er opprettet
+        * sett hale til å være hode. (denne endres for hver gang det legges til en node)
+        * gjør sjekk på om hode != null. hvis ikke økes hjelpevariabel som ble brukt
+        i forrige løkke med 1.
+        * lag en for løkke som går så lenge hjelpevariabelen i er mindre enn størrelsen
+        på a.
+        * hvis den neste verdien i a ikke er null opprettes en ny node, og antall økes med 1.
+        */
     }
 
     public Liste<T> subliste(int fra, int til) {
@@ -49,13 +63,22 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     @Override
+    // Jonas
     public int antall() {
-        throw new UnsupportedOperationException();
+        // Første metode i oppgave 1
+        // kun return statement. heltallet behandles i konstruktør.
+
     }
 
     @Override
+    // Jonas
     public boolean tom() {
-        throw new UnsupportedOperationException();
+        // Andre metode i oppgave 1.
+        /*
+        gjør sjekk om hode har en verdi. om hodet
+        er null skal det returneres true da hodet
+        hadde hatt noe annet enn nullverdi om lista ikke var tom.
+        */
     }
 
     @Override
@@ -158,5 +181,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
 } // class DobbeltLenketListe
+
+
 
 

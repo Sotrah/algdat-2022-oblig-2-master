@@ -120,9 +120,29 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 
+    // Hjelpemetode i oppgave 3a
+    private Node<T> finnNode(int indeks){
+        /*
+        * indeksKontroll() er kjørt fra hent()
+        * gjør en sjekk på indeks sin størrelse i forhold til antall. et utfall starter leting fra hale til hode
+        og det andre utfallet starter leting fra hode til hale.
+        * løp igjennom listen fra hode til hale om indeks er mindre enn antall/2
+        * løp igjennom listen fra hale til hode om indeks er større enn antall/2
+        * returner verdien til noden som matcher med indeksen
+        */
+        return null;
+    }
+
+
     @Override
     public T hent(int indeks) {
-        throw new UnsupportedOperationException();
+        // Metode i oppgave 3a
+        // Sliter litt med å forstå oppgaveteksten. går utifra at denne skal kalle finnNode().
+        /*
+         * kjør indeksKontroll() Her for å sjekke gyldigheten av gitt indeks
+         * kall finnNode()
+         */
+        return null;
     }
 
     @Override
@@ -132,7 +152,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
-        throw new UnsupportedOperationException();
+        // Metode i oppgave 3a
+        /*
+        * kall først indeksKontroll() for å sjekke gyldigheten av gitt indeks
+        * Sjekk at nyverdi ikke er en null-verdi.
+        * finn indeksen hvor nyverdi skal legges inn og returner den tidligere verdien
+        * øk variabel endringer
+        */
+        return null;
     }
 
     @Override

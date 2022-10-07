@@ -89,6 +89,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     // Jonas
     public int antall() {
+        // Første metode i oppgave 1
         return antall;
     }
 
@@ -103,6 +104,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         */
         if (hode == null) return true;
         else return false;
+    }
+
+    // Hjelpemetode i oppgave 3a
+    private Node<T> finnNode(int indeks){
+        /*
+        * sjekk om indeks er et positivt tall og om indeks er mindre enn antall.
+        * kast en exception om det ikke er tilfelle.
+        * gjør en sjekk på indeks sin størrelse i forhold til antall. et utfall starter leting fra hale til hode
+        og det andre utfallet starter leting fra hode til hale.
+        * løp igjennom listen fra hode til hale om indeks er mindre enn antall/2
+        * løp igjennom listen fra hale til hode om indeks er større enn antall/2
+        * returner verdien til noden som matcher med indeksen
+        */
+        return null;
     }
 
     @Override
@@ -122,7 +137,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T hent(int indeks) {
-        throw new UnsupportedOperationException();
+        // Metode i oppgave 3a
+        // Sliter litt med å forstå oppgaveteksten. går utifra at denne skal kalle finnNode.
+        /*
+        * Sjekk at indeks er gyldig med indeksKontroll()-metoden (false brukes som parameter)
+        * kall finnNode()
+        */
+        return null;
     }
 
     @Override
@@ -132,6 +153,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
+        // metode i oppgave 3a
         throw new UnsupportedOperationException();
     }
 

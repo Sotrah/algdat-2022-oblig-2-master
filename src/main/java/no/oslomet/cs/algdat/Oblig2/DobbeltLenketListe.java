@@ -156,10 +156,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         else return false;
     }
 
-    @Override
+    @Override //2
+    public String toString(){
+
+    }
+    public String omvendtString(){
+
+    }
+    @Override //2
     public boolean leggInn(T verdi) {
         throw new UnsupportedOperationException();
     }
+
 
     @Override
     public void leggInn(int indeks, T verdi) {
@@ -258,9 +266,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         return finnNode(indeks).verdi;
     }
 
-    @Override
+    @Override //4
     public int indeksTil(T verdi) {
+        //Pseudokode
+        //Om verdi er 0 returner -1
+        //For loop for å gå igjennom listen med return statement, fra head til ønsket node, eller hale
+        //
         throw new UnsupportedOperationException();
+    }
+
+    public boolean inneholder(T verdi){//returnerer true om verdien er i listen
+        return indeksTil(verdi) != -1; //kall
     }
 
     @Override
@@ -287,13 +303,23 @@ public class DobbeltLenketListe<T> implements Liste<T> {
        return skalUt;
     }
 
-    @Override
+    @Override //6
     public boolean fjern(T verdi) {
+        //Psedo
+        //Fjern første forekomst og returner true
+        //Verdi blir da -1 fra før
+        //Nye verdier blir også redusert med -1.
+        //Hvis verdi != er i listen, return false
         throw new UnsupportedOperationException();
     }
 
     @Override
     public T fjern(int indeks) {
+        //Psedo
+        //Fjern fra listen ved indeksverdi
+        //-1 på alle resterende verdier enn før og nye verdier
+        //Om flere av samme finnes - fjern første(venstre)
+        //Om verdi ikke er i listen - return false
         throw new UnsupportedOperationException();
     }
 

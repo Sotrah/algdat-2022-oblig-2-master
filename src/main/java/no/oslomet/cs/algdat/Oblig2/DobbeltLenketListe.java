@@ -163,7 +163,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void leggInn(int indeks, T verdi) {
-        throw new UnsupportedOperationException();
+        // Metode i oppgave 5
+        // Pseudokode:
+        /*
+        * Sjekk først om verdi er null. kast exception om den er det.
+        * Sjekk om indeks er en lovlig verdi. kan ikke være negativ og ikke større enn lengde på lista
+        * gjør sjekk for tom liste, kast exception om den er tom
+        * gjør sjekk om indeks peker på første plass i lista. legg den så inn først
+        * gjør sjekk om indeks peker på siste plass i lista. legg den så inn sist
+        * gjør sjekk om indeks peker på en plass mellom første og siste plass i lista. legg den så inn på gitt sted
+        *
+        */
     }
 
     @Override

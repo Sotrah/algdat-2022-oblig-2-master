@@ -6,6 +6,7 @@ package no.oslomet.cs.algdat.Oblig2;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
@@ -37,7 +38,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int endringer;         // antall endringer i listen
 
     public DobbeltLenketListe() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException(); // fjerne???
     }
 
     // Jonas
@@ -83,9 +84,45 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public Liste<T> subliste(int fra, int til) {
+        // Første metode i Oppgave 3b
+        // Pseudo:
+        /*
+        * sjekk om intervallet er lovlig. med bruk av fratilKontroll(). denne hentes fra kompendiet og legges inn
+        som privat metode. (bytt ut exception typen for å få riktig feilmelding)
+        * Opprett/instansier en liste og sett riktig lengde med en variabel basert på til - fra.
+        * hvis intervallet er 0/ikke et intervall returneres en tom liste
+        * hvis intervallet er 1 eller større returneres en subliste:
+        * lag en "gjeldende" node (fra)
+        * løkke som kjører så mange ganger som "lengde"-variablen lar den gå. lengde minkes med 1 pr loop
+        * kalle leggInn() og tilegne "gjeldende" en ny verdi før neste runde i løkken
+        */
         throw new UnsupportedOperationException();
     }
 
+
+    // Hjelpemetode til 3b
+    private void fratilKontroll(int antall, int fra, int til) {
+        if (fra < 0)                                  // fra er negativ
+            throw new IndexOutOfBoundsException
+                    ("fra(" + fra + ") er negativ!");
+
+        if (til > antall)                          // til er utenfor tabellen
+            throw new IndexOutOfBoundsException
+                    ("til(" + til + ") > tablengde(" + antall + ")");
+
+        if (fra > til)                                // fra er større enn til
+            throw new IllegalArgumentException
+                    ("fra(" + fra + ") > til(" + til + ") - illegalt intervall!");
+
+        if (fra == til)
+            throw new NoSuchElementException
+                    ("fra(" + fra + ") = til(" + til + ") - tomt tabellintervall!");
+        //Lagt til fra 1.2.3.c
+        if (fra == til)
+            throw new NoSuchElementException
+                    ("fra(" + fra + ") = til(" + til + ") - tomt tabellintervall!");
+        // er exceptions på de tre siste i ok format?
+    }
     @Override
     // Jonas
     public int antall() {
@@ -120,8 +157,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 
-    // Hjelpemetode i oppgave 3a
-    private Node<T> finnNode(int indeks){
+
+    private Node<T> finnNode(int indeks) {
+        // Hjelpemetode i oppgave 3a
         /*
         * indeksKontroll() er kjørt fra hent()
         * gjør en sjekk på indeks sin størrelse i forhold til antall. et utfall starter leting fra hale til hode
@@ -130,7 +168,27 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         * løp igjennom listen fra hale til hode om indeks er større enn antall/2
         * returner verdien til noden som matcher med indeksen
         */
-        return null;
+        int midtVerdi = antall / 2;
+        Node<T> gjeldende = null;
+
+        if (indeks < midtVerdi) {
+            gjeldende = hode;
+            for (int i = 0; i <= midtVerdi; i++) { // let fra hode
+                if (i == indeks) {
+                    gjeldende = gjeldende.neste;
+                }
+            }
+        }
+        if (indeks >= midtVerdi) { // let fra hale
+            gjeldende = hale;
+            for (int i = antall; i >= midtVerdi; i--) { // pass på større/lik her
+                if (i == indeks) {
+                    gjeldende = gjeldende.forrige;
+                }
+            }
+
+        }
+        return gjeldende;
     }
 
 
@@ -142,7 +200,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
          * kjør indeksKontroll() Her for å sjekke gyldigheten av gitt indeks
          * kall finnNode()
          */
-        return null;
+        indeksKontroll(indeks, false);
+        return finnNode(indeks).verdi;
     }
 
     @Override
@@ -159,7 +218,19 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         * finn indeksen hvor nyverdi skal legges inn og returner den tidligere verdien
         * øk variabel endringer
         */
-        return null;
+
+        indeksKontroll(indeks, false);
+        if (nyverdi == null){
+            throw new UnsupportedOperationException("kan ikke legge inn en null-verdi!");
+        }
+        Node<T> gjeldende = finnNode(indeks);
+
+        T skalUt = gjeldende.verdi;
+        endringer ++;
+
+        gjeldende.verdi = nyverdi;
+
+       return skalUt;
     }
 
     @Override

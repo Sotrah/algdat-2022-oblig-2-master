@@ -176,6 +176,34 @@ public class DobbeltLenketListe<T> implements Liste<T> {
          * gjør sjekk om indeks peker på en plass mellom første og siste plass i lista. legg den så inn på gitt sted
             *  behandle variabel antall og endringer
          */
+
+        if (verdi == null){
+            throw new IllegalArgumentException("Variabelen må tilegnes en verdi!");
+        }
+        else if (indeks < 0 || indeks > antall) {
+            throw new IllegalArgumentException("Indeksen kan ikke være negativ eller større enn lista!");
+        }
+
+
+        if(indeks == 0 && antall == 0){ // hvis lista er tom og indeksen er satt til 0
+            hode = hale = new Node<>(verdi, null, null);
+
+        }
+        else if (indeks == antall) { // riktig grense?
+            hale = new Node<>(verdi, hale.forrige, null); // ta en dobbeltsjekk på denne
+        }
+        else {
+            Node<T> gjeldende = new Node<>(hode.verdi, null, hode.neste);
+            for (int i = 0; i < antall; i++){ // ta en dobbeltsjekk på i<antall. men ska være riktig
+                while (i < indeks){ // Kan forenkle hele funksjonaliteten ved å kun bruke while?
+                    // tilegn current for hver iterasjon
+                }
+                // Opprett ny node når i har nådd indeksverdien
+            }
+
+        }
+        antall ++; // står på riktig sted?
+        endringer ++; // står på riktig sted?
     }
 
     @Override

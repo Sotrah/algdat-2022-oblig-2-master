@@ -95,8 +95,22 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         * lag en "gjeldende" node (fra)
         * løkke som kjører så mange ganger som "lengde"-variablen lar den gå. lengde minkes med 1 pr loop
         * kalle leggInn() og tilegne "gjeldende" en ny verdi før neste runde i løkken
+        * tilegn gjeldende gjeldende sin neste
         */
-        throw new UnsupportedOperationException();
+        fratilKontroll(antall, fra, til);
+
+        Liste<T> subliste = new DobbeltLenketListe<>(); //  kalle denne subliste eller kun liste?
+        int lengde = til - fra;
+
+        if (lengde < 0){
+            return subliste;
+        }
+        Node<T> gjeldende = finnNode(fra);
+        for (; lengde > 0; lengde--){ // Ta en dobbeltsjekk på intervallet
+            leggInn(gjeldende.verdi);
+            gjeldende = gjeldende.neste;
+        }
+        return subliste;
     }
 
 

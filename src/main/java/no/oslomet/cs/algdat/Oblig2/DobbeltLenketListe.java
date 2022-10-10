@@ -7,6 +7,7 @@ package no.oslomet.cs.algdat.Oblig2;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
@@ -156,16 +157,82 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         else return false;
     }
 
-    @Override //2
-    public String toString(){
+    @Override
+    public String toString() { //2 Joacim
+        // If-setning som sjekker om listen er tom
+        if (antall==0)
+        {
+            // Returnerer en tom String
+            return "[]";
+        }
 
-    }
-    public String omvendtString(){
+        // Oppretter en node for tar vare på verdien til hode
+        Node<T> p=hode;
+        // Oppretter en StringBuilder som skal legge sammenen String verdiene
+        StringBuilder s = new StringBuilder();
+        // Setter en klamme først
+        s.append('[');
+        // Setter inn verdien til hode først i listen som skal ut
+        s.append(p.verdi);
+        // Setter at noden p nå skal være den neste noden for p
+        p=p.neste;
+        // While-løkke som kjører sålenge p ikke er null
+        while (p!=null){
+            // Setter inn verdiene med et komma først
+            s.append(", ");
+            s.append(p.verdi);
+            p=p.neste;
+        }
 
+        // Legger inn en klamme til slutt
+        s.append(']');
+        return s.toString();
     }
-    @Override //2
-    public boolean leggInn(T verdi) {
-        throw new UnsupportedOperationException();
+
+    public String omvendtString() { //2 Joacim
+        // If-setning som sjekker om listen er tom
+        if (antall==0)
+        {
+            return "[]";
+        }
+
+        // Samme prinsipp som i toString, bare at vi traverserer baklengs
+        Node<T> c=hale;
+        StringBuilder s=new StringBuilder();
+
+        s.append('[').append(c.verdi);
+        c=c.forrige;
+
+        while (c!=null)
+        {
+            s.append(',').append(' ').append(c.verdi);
+            c=c.forrige;
+        }
+        s.append(']');
+
+        return s.toString();
+    }
+
+    @Override
+    public boolean leggInn(T verdi) { //2 Joacim
+        // Programkode 3.3.2 f)
+        // Verdi kan ikke være null
+        Objects.requireNonNull(verdi, "Ikke lov med null-verdier!");
+        // If-setning som sjekker om listen er tom
+        if (antall==0){
+            // Ny node som tar vare på verdi
+            Node<T> p=new Node<T>(verdi);
+            hode=hale=p;
+        }
+        // Hvis ikke skal den siste verdien oppdateres
+        else{
+            // Hale får ny verdi, som er sist i rekken
+            hale=hale.neste=new Node<>(verdi, hale, null);
+        }
+        // Oppdaterer teller variablene
+        antall++;
+        endringer++;
+        return true;
     }
 
 
@@ -214,10 +281,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         endringer ++; // står på riktig sted?
     }
 
-    @Override
-    public boolean inneholder(T verdi) {
-        throw new UnsupportedOperationException();
-    }
+
 
 
     private Node<T> finnNode(int indeks) {
@@ -266,15 +330,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         return finnNode(indeks).verdi;
     }
 
-    @Override //4
+    @Override //4 Joacim
     public int indeksTil(T verdi) {
-        //Pseudokode
-        //Om verdi er 0 returner -1
-        //For loop for å gå igjennom listen med return statement, fra head til ønsket node, eller hale
-        //
-        throw new UnsupportedOperationException();
-    }
+        if (verdi==null) return -1;
 
+        Node<T> p=hode;
+
+        for (int i=0; i<antall; i++, p=p.neste){
+            if (p.verdi.equals(verdi)){
+                return i;
+            }
+        }
+        return -1;
+    }
+    @Override
     public boolean inneholder(T verdi){//returnerer true om verdien er i listen
         return indeksTil(verdi) != -1; //kall
     }
@@ -303,39 +372,83 @@ public class DobbeltLenketListe<T> implements Liste<T> {
        return skalUt;
     }
 
-    @Override //6
+    @Override //6 Joacim
     public boolean fjern(T verdi) {
-        //Psedo
-        //Fjern første forekomst og returner true
-        //Verdi blir da -1 fra før
-        //Nye verdier blir også redusert med -1.
-        //Hvis verdi != er i listen, return false
-        throw new UnsupportedOperationException();
+        if (verdi==null)
+            return false;
+        Node<T> p=hode;
+
+        while(p!=null){//ser etter verdi
+            if (p.verdi.equals(verdi))
+                break;
+            p=p.neste;
+        }
+        if (p==null){
+            return false;
+        }
+        else if (antall==1){
+            hode=hale=null;
+        }
+        else if (p==hode){ //if tester til å sjekke hvor noden ligger, endrer.
+            hode=hode.neste;
+            hode.forrige=null;
+        }
+        else if (p==hale){
+            hale=hale.forrige;
+            hale.neste=null;
+        }
+        else{
+            p.forrige.neste=p.neste;
+            p.neste.forrige=p.forrige;
+        }
+        p.verdi=null;
+        p.forrige=p.neste=null;
+
+        antall--;
+        endringer++;
+        return true;
     }
 
     @Override
-    public T fjern(int indeks) {
-        //Psedo
-        //Fjern fra listen ved indeksverdi
-        //-1 på alle resterende verdier enn før og nye verdier
-        //Om flere av samme finnes - fjern første(venstre)
-        //Om verdi ikke er i listen - return false
-        throw new UnsupportedOperationException();
+    public T fjern(int indeks)  {       //indekskontroll
+    indeksKontroll(indeks, false);
+
+    //initialisering av kode
+    T temp;
+    Node<T> p=hode;
+
+    //leting av node ved hjelp av for-løkke
+        for(int i=0; i<indeks; i++){
+        p=p.neste;
     }
+    //fanger verdien av noden
+    temp=p.verdi;
+
+    //if testinger hvor i lenken den ligger og derreter flytter på pekere
+        if(p==hode){
+        hode=p.neste;
+    }
+        if(p==hale){
+        hale=p.forrige;
+    }
+        if(p.neste!=null){
+        p.neste.forrige=p.forrige;
+    }
+        if(p.forrige!=null){
+        p.forrige.neste=p.neste;
+    }
+
+    endringer++;
+    antall--;
+        return temp;
+}
 
     @Override
     public void nullstill() {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public String toString() {
-        throw new UnsupportedOperationException();
-    }
 
-    public String omvendtString() {
-        throw new UnsupportedOperationException();
-    }
 
     @Override
     public Iterator<T> iterator() {

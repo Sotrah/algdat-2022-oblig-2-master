@@ -4,10 +4,7 @@ package no.oslomet.cs.algdat.Oblig2;
 ////////////////// class DobbeltLenketListe //////////////////////////////
 
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
@@ -445,15 +442,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         */
     }
 
-
-
-    @Override
+    @Override                           //8
     public Iterator<T> iterator() {
-        throw new UnsupportedOperationException();
+    //Returner funksjon
+        return new DobbeltLenketListeIterator();
     }
 
     public Iterator<T> iterator(int indeks) {
-        throw new UnsupportedOperationException();
+        indeksKontroll(indeks, false);
+    return new DobbeltLenketListeIterator(indeks);
     }
 
     private class DobbeltLenketListeIterator implements Iterator<T> {
@@ -468,7 +465,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
 
         private DobbeltLenketListeIterator(int indeks) {
-            throw new UnsupportedOperationException();
+            denne=finnNode(indeks);
+            iteratorendringer=endringer;
+            fjernOK=false;
+            //Peker "denne" til noden indeks
         }
 
         @Override
@@ -478,8 +478,19 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public T next() {
-            throw new UnsupportedOperationException();
+            if (iteratorendringer != endringer) {
+                throw new ConcurrentModificationException("Iteratorendringer er feil");
+            }
+            if (!hasNext()) {
+                throw new NoSuchElementException("Ingen flere elementer");
+            }
+            fjernOK = true;
+            T hold= denne.verdi;
+            denne=denne.neste;
+            return hold;
+
         }
+
 
         @Override
         public void remove() {

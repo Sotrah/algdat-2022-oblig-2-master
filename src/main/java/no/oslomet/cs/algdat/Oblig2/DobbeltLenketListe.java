@@ -39,7 +39,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int endringer;         // antall endringer i listen
 
     public DobbeltLenketListe() {
-       // throw new UnsupportedOperationException(); 
+       // throw new UnsupportedOperationException();
     }
 
     // Jonas
@@ -103,40 +103,33 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         Liste<T> subliste = new DobbeltLenketListe<>(); //  kalle denne subliste eller kun liste?
         int lengde = til - fra;
 
-        if (lengde < 0){
+        if (lengde < 1) {
             return subliste;
         }
         Node<T> gjeldende = finnNode(fra);
-        for (; lengde > 0; lengde--){ // Ta en dobbeltsjekk på intervallet
-            leggInn(gjeldende.verdi);
+        while (lengde > 0) {
+            subliste.leggInn(gjeldende.verdi);
             gjeldende = gjeldende.neste;
+            lengde--;
         }
         return subliste;
     }
 
 
-    // Hjelpemetode til 3b
-    private void fratilKontroll(int antall, int fra, int til) {
+    // Hjelpemetode til 3b (limt inn fra kompendiet)
+    private void fratilKontroll(int antall, int fra, int til)
+    {
         if (fra < 0)                                  // fra er negativ
             throw new IndexOutOfBoundsException
                     ("fra(" + fra + ") er negativ!");
 
         if (til > antall)                          // til er utenfor tabellen
             throw new IndexOutOfBoundsException
-                    ("til(" + til + ") > tablengde(" + antall + ")");
+                    ("til(" + til + ") > antall(" + antall + ")");
 
         if (fra > til)                                // fra er større enn til
             throw new IllegalArgumentException
                     ("fra(" + fra + ") > til(" + til + ") - illegalt intervall!");
-
-        if (fra == til)
-            throw new NoSuchElementException
-                    ("fra(" + fra + ") = til(" + til + ") - tomt tabellintervall!");
-        //Lagt til fra 1.2.3.c
-        if (fra == til)
-            throw new NoSuchElementException
-                    ("fra(" + fra + ") = til(" + til + ") - tomt tabellintervall!");
-        // er exceptions på de tre siste i ok format?
     }
     @Override
     // Jonas
@@ -253,28 +246,27 @@ public class DobbeltLenketListe<T> implements Liste<T> {
          */
 
         if (verdi == null){
-            throw new IllegalArgumentException("Variabelen må tilegnes en verdi!");
+            throw new NullPointerException("Variabelen må tilegnes en verdi!");
         }
         else if (indeks < 0 || indeks > antall) {
-            throw new IllegalArgumentException("Indeksen kan ikke være negativ eller større enn lista!");
+            throw new IndexOutOfBoundsException("Indeksen kan ikke være negativ eller større enn lista!");
         }
 
 
         if(indeks == 0 && antall == 0){ // hvis lista er tom og indeksen er satt til 0
-            hode = hale = new Node<>(verdi, null, null);
+            hode = hale = new Node<>(verdi);
 
         }
         else if (indeks == antall) { // riktig grense?
             hale = new Node<>(verdi, hale.forrige, null); // ta en dobbeltsjekk på denne
         }
         else {
-            Node<T> gjeldende = new Node<>(hode.verdi, null, hode.neste);
-            for (int i = 0; i < antall; i++){ // ta en dobbeltsjekk på i<antall. men ska være riktig
-                while (i < indeks){ // Kan forenkle hele funksjonaliteten ved å kun bruke while?
+            // node vi jobber med
+            for(int i = 0; i < indeks; i++){ // ta en dobbeltsjekk på i < antall. men ska være riktig
                     // tilegn current for hver iterasjon
-                }
-                // Opprett ny node når i har nådd indeksverdien
+
             }
+            // Opprett ny node når i har nådd indeksverdien
 
         }
         antall ++; // står på riktig sted?
@@ -294,27 +286,23 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         * løp igjennom listen fra hale til hode om indeks er større enn antall/2
         * returner verdien til noden som matcher med indeksen
         */
-        int midtVerdi = antall / 2;
-        Node<T> gjeldende = null;
 
-        if (indeks < midtVerdi) {
+        Node<T> gjeldende;
+
+        if (indeks < antall / 2) {
             gjeldende = hode;
-            for (int i = 0; i <= midtVerdi; i++) { // let fra hode
-                if (i == indeks) {
+            for (int i = 0; i < indeks; i++) { // let fra hode
                     gjeldende = gjeldende.neste;
-                }
             }
+            return gjeldende;
         }
-        if (indeks >= midtVerdi) { // let fra hale
+        else { // let fra hale
             gjeldende = hale;
-            for (int i = antall; i >= midtVerdi; i--) { // pass på større/lik her
-                if (i == indeks) {
+            for (int i = antall - 1; i > indeks; i--) { // pass på større/lik her
                     gjeldende = gjeldende.forrige;
-                }
             }
-
+            return gjeldende;
         }
-        return gjeldende;
     }
 
 
@@ -328,6 +316,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
          */
         indeksKontroll(indeks, false);
         return finnNode(indeks).verdi;
+        // holder denne eller skal det dannes en node eksplisitt?
     }
 
     @Override //4 Joacim
@@ -360,7 +349,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         indeksKontroll(indeks, false);
         if (nyverdi == null){
-            throw new UnsupportedOperationException("kan ikke legge inn en null-verdi!");
+            throw new NullPointerException("kan ikke legge inn en null-verdi!");
         }
         Node<T> gjeldende = finnNode(indeks);
 
@@ -445,7 +434,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void nullstill() {
-        throw new UnsupportedOperationException();
+        // Metode i oppgave 7
+        // Pseudo: Måte 1:
+        /*
+        * blabla
+        */
+        // Pseudo Måte 2:
+        /*
+        * blabla
+        */
     }
 
 

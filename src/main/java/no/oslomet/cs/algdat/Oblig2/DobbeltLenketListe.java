@@ -211,7 +211,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         // If-setning som sjekker om listen er tom
         if (antall==0){
             // Ny node som tar vare på verdi
-            Node<T> p=new Node<T>(verdi);
+            Node<T> p=new Node<>(verdi);
             hode=hale=p;
         }
         // Hvis ikke skal den siste verdien oppdateres
@@ -251,23 +251,27 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
 
         if(indeks == 0 && antall == 0){ // hvis lista er tom og indeksen er satt til 0
-            hode = hale = new Node<>(verdi);
-
+            hode = hale = new Node<>(verdi, null, null);
         }
-        else if (indeks == antall) { // riktig grense?
-            hale = new Node<>(verdi, hale.forrige, null); // ta en dobbeltsjekk på denne
+        else if (indeks == antall) { // hvis noden skal legges sist:
+            hale = new Node<>(verdi, hale, null); // ta en dobbeltsjekk på denne
+            hale.forrige.neste = hale;
+        }
+        else if (indeks == 0) {
+            hode = new Node<>(verdi, null, hode);
+            hode.neste.forrige = hode;
         }
         else {
-            // node vi jobber med
-            for(int i = 0; i < indeks; i++){ // ta en dobbeltsjekk på i < antall. men ska være riktig
+            Node<T> gjeldende = hode;
+            for(int i = 0; i < indeks; i++){
                     // tilegn current for hver iterasjon
-
+                gjeldende = new Node<>(verdi, gjeldende.forrige, gjeldende);
             }
             // Opprett ny node når i har nådd indeksverdien
-
+            gjeldende.neste.forrige = gjeldende.forrige.neste = gjeldende;
         }
-        antall ++; // står på riktig sted?
-        endringer ++; // står på riktig sted?
+        antall++; // står på riktig sted?
+        endringer++; // står på riktig sted?
     }
 
 
@@ -434,11 +438,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         // Metode i oppgave 7
         // Pseudo: Måte 1:
         /*
-        * blabla
-        */
+        * for løkke som traverserer lista. stopper når man når en node med null-verdi
+        * sett gjeldende node til null
+        * sett gjeldende node sine forrige og neste-pekere til null
+        * sett hode og hale til null utenfor løkken
+         */
         // Pseudo Måte 2:
         /*
-        * blabla
+        * for løkke som traverserer lista. samme parametere som tidligere
+        * for hver runde i løkken kalles fjern() med gjeldende node som parameter.
         */
     }
 

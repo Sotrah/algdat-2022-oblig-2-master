@@ -39,7 +39,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int endringer;         // antall endringer i listen
 
     public DobbeltLenketListe() {
-        throw new UnsupportedOperationException(); // fjerne???
+       // throw new UnsupportedOperationException(); 
     }
 
     // Jonas

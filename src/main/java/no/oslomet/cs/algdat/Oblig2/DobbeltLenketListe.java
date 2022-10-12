@@ -375,26 +375,23 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
         if (p==null){
             return false;
-        }
-        else if (antall==1){
-            hode=hale=null;
-        }
-        else if (p==hode){ //if tester til å sjekke hvor noden ligger, endrer.
-            hode=hode.neste;
-            hode.forrige=null;
-        }
-        else if (p==hale){
-            hale=hale.forrige;
-            hale.neste=null;
-        }
-        else{
-            p.forrige.neste=p.neste;
-            p.neste.forrige=p.forrige;
-        }
-        p.verdi=null;
-        p.forrige=p.neste=null;
 
-        antall--;
+        } else if (antall == 1) {
+            hode = hale = null;
+        } else if (p == hode) { //if tester til å sjekke hvor noden ligger, endrer.
+            hode = hode.neste;
+            hode.forrige = null;
+        } else if (p == hale) {
+            hale = hale.forrige;
+            hale.neste = null;
+        } else {
+            p.forrige.neste = p.neste;
+            p.neste.forrige = p.forrige;
+        }
+        p.verdi = null;
+        p.forrige = p.neste = null;
+
+            antall--;
         endringer++;
         return true;
     }

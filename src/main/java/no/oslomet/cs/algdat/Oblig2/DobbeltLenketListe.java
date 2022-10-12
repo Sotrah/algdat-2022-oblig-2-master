@@ -36,7 +36,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int endringer;         // antall endringer i listen
 
     public DobbeltLenketListe() {
-       // throw new UnsupportedOperationException();
+        hode = null;
+        hale = null;
+
+        antall = 0;
+        endringer = 0;
     }
 
     // Jonas
@@ -229,46 +233,39 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public void leggInn(int indeks, T verdi) {
         // Metode i oppgave 5
-        // Pseudokode:
-        /*
-         * Sjekk først om verdi er null. kast exception om den er det.
-         * Sjekk om indeks er en lovlig verdi. kan ikke være negativ og ikke større enn lengde på lista
-         * gjør sjekk for tom liste, kast exception om den er tom
-         * gjør sjekk om indeks peker på første plass i lista. legg den så inn først
-             * behandle variabel antall og endringer
-         * gjør sjekk om indeks peker på siste plass i lista. legg den så inn sist
-             * behandle variabel antall og endringer
-         * gjør sjekk om indeks peker på en plass mellom første og siste plass i lista. legg den så inn på gitt sted
-            *  behandle variabel antall og endringer
-         */
 
-        if (verdi == null){
-            throw new NullPointerException("Variabelen må tilegnes en verdi!");
+        Objects.requireNonNull(verdi, "Verdien kan ikke være null");
+        if(indeks < 0){
+            throw new IndexOutOfBoundsException("Indeksen kan ikke være negativ");
         }
-        else if (indeks < 0 || indeks > antall) {
-            throw new IndexOutOfBoundsException("Indeksen kan ikke være negativ eller større enn lista!");
+        else if (indeks > antall){
+            throw new IndexOutOfBoundsException("Indeksen kan ikke være høyere enn antall noder");
         }
 
+        Node<T> h = hode;
+        Node<T> t = hale;
+        Node <T> ny = new Node<>(verdi);
 
-        if(indeks == 0 && antall == 0){ // hvis lista er tom og indeksen er satt til 0
-            hode = hale = new Node<>(verdi, null, null);
+
+        if(tom()){ // hvis lista er tom og indeksen er satt til 0
+            h.neste = ny;
+            t.forrige = ny;
         }
         else if (indeks == antall) { // hvis noden skal legges sist:
-            hale = new Node<>(verdi, hale, null); // ta en dobbeltsjekk på denne
-            hale.forrige.neste = hale;
+            h.neste = ny;
+            ny.forrige = h;
         }
         else if (indeks == 0) {
-            hode = new Node<>(verdi, null, hode);
-            hode.neste.forrige = hode;
+            h.neste = ny;
+            ny.forrige = h;
+            ny.neste = t;
         }
         else {
-            Node<T> gjeldende = hode;
-            for(int i = 0; i < indeks; i++){
-                    // tilegn current for hver iterasjon
-                gjeldende = new Node<>(verdi, gjeldende.forrige, gjeldende);
-            }
-            // Opprett ny node når i har nådd indeksverdien
-            gjeldende.neste.forrige = gjeldende.forrige.neste = gjeldende;
+           t = ny.neste;
+           h.neste = ny;
+           t.forrige = ny;
+           ny.neste = t;
+           ny.forrige = h;
         }
         antall++; // står på riktig sted?
         endringer++; // står på riktig sted?
@@ -355,11 +352,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         Node<T> gjeldende = finnNode(indeks);
 
         T skalUt = gjeldende.verdi;
-        endringer ++;
 
         gjeldende.verdi = nyverdi;
-
-       return skalUt;
+        endringer ++;
+        return skalUt;
     }
 
     @Override //6 Joacim
@@ -446,8 +442,23 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         // Pseudo Måte 2:
         /*
         * for løkke som traverserer lista. samme parametere som tidligere
-        * for hver runde i løkken kalles fjern() med gjeldende node som parameter.
+        * for hver runde i løkken kalles fjern() med gjeldende node som parameter/indeks 0.
+        (første node tømmes hver gang).
         */
+        Node<T> gjeldende = hode;
+        for (; gjeldende != null; gjeldende = gjeldende.neste){
+            gjeldende.verdi = null;
+            gjeldende.forrige = gjeldende.neste = null;
+        }
+        hode = hale = null;
+        antall = 0;
+        endringer++;
+
+
+
+        /*for (Node<T> gjeldende = hode; gjeldende != null; gjeldende = gjeldende.neste){
+            fjern(0);
+        }*/
     }
 
     @Override                           //8

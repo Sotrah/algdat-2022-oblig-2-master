@@ -62,10 +62,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         if (a == null) throw new NullPointerException("Lista er tom");
 
-        if (a.length > 0){
+        if (a.length > 0) {
             int i = 0;
-            for(;i < a.length; i++){
-                if(a[i] != null) {
+            for (; i < a.length; i++) {
+                if (a[i] != null) {
                     hode = new Node<>(a[i]);
                     antall++;
                     break;
@@ -118,8 +118,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
 
     // Hjelpemetode til 3b (limt inn fra kompendiet)
-    private void fratilKontroll(int antall, int fra, int til)
-    {
+    private void fratilKontroll(int antall, int fra, int til) {
         if (fra < 0)                                  // fra er negativ
             throw new IndexOutOfBoundsException
                     ("fra(" + fra + ") er negativ!");
@@ -132,6 +131,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             throw new IllegalArgumentException
                     ("fra(" + fra + ") > til(" + til + ") - illegalt intervall!");
     }
+
     @Override
     // Jonas
     public int antall() {
@@ -154,14 +154,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public String toString() { //2 Joacim
         // If-setning som sjekker om listen er tom
-        if (antall==0)
-        {
+        if (antall == 0) {
             // Returnerer en tom String
             return "[]";
         }
 
         // Oppretter en node for tar vare på verdien til hode
-        Node<T> p=hode;
+        Node<T> p = hode;
         // Oppretter en StringBuilder som skal legge sammenen String verdiene
         StringBuilder s = new StringBuilder();
         // Setter en klamme først
@@ -169,13 +168,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         // Setter inn verdien til hode først i listen som skal ut
         s.append(p.verdi);
         // Setter at noden p nå skal være den neste noden for p
-        p=p.neste;
+        p = p.neste;
         // While-løkke som kjører sålenge p ikke er null
-        while (p!=null){
+        while (p != null) {
             // Setter inn verdiene med et komma først
             s.append(", ");
             s.append(p.verdi);
-            p=p.neste;
+            p = p.neste;
         }
 
         // Legger inn en klamme til slutt
@@ -185,22 +184,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public String omvendtString() { //2 Joacim
         // If-setning som sjekker om listen er tom
-        if (antall==0)
-        {
+        if (antall == 0) {
             return "[]";
         }
 
         // Samme prinsipp som i toString, bare at vi traverserer baklengs
-        Node<T> c=hale;
-        StringBuilder s=new StringBuilder();
+        Node<T> c = hale;
+        StringBuilder s = new StringBuilder();
 
         s.append('[').append(c.verdi);
-        c=c.forrige;
+        c = c.forrige;
 
-        while (c!=null)
-        {
+        while (c != null) {
             s.append(',').append(' ').append(c.verdi);
-            c=c.forrige;
+            c = c.forrige;
         }
         s.append(']');
 
@@ -213,15 +210,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         // Verdi kan ikke være null
         Objects.requireNonNull(verdi, "Ikke lov med null-verdier!");
         // If-setning som sjekker om listen er tom
-        if (antall==0){
+        if (antall == 0) {
             // Ny node som tar vare på verdi
-            Node<T> p=new Node<>(verdi);
-            hode=hale=p;
+            Node<T> p = new Node<>(verdi);
+            hode = hale = p;
         }
         // Hvis ikke skal den siste verdien oppdateres
-        else{
+        else {
             // Hale får ny verdi, som er sist i rekken
-            hale=hale.neste=new Node<>(verdi, hale, null);
+            hale = hale.neste = new Node<>(verdi, hale, null);
         }
         // Oppdaterer teller variablene
         antall++;
@@ -232,43 +229,45 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void leggInn(int indeks, T verdi) {
-        // Metode i oppgave 5
 
-        Objects.requireNonNull(verdi, "Verdien kan ikke være null");
-        if(indeks < 0){
-            throw new IndexOutOfBoundsException("Indeksen kan ikke være negativ");
-        }
-        else if (indeks > antall){
-            throw new IndexOutOfBoundsException("Indeksen kan ikke være høyere enn antall noder");
-        }
+        Objects.requireNonNull(verdi);
+        indeksKontroll(indeks, true);
+        Node<T> start = hode;
+        Node<T> ende = hale;
+        Node<T> ny = new Node<>(verdi);
 
-        Node<T> h = hode;
-        Node<T> t = hale;
-        Node <T> ny = new Node<>(verdi);
+        if(indeks >= 0 && indeks <= antall && verdi !=null) {
+            if (tom()) {
+                start.neste = ny;
+                ende.forrige = ny;
+            } else {
+                int i = 0;
+                for (; i < indeks; i++) {
+                    start = start.neste;
+                }
 
+                if (i == 0) {
+                    ende = start.neste;
+                    ny.neste = start.neste;
+                    start.neste = ny;
+                    ende.forrige = ny;
+                } else if (i == antall) {
+                    ende.forrige = ny;
+                    ny.forrige = start;
+                    start.neste = ny;
+                } else {
+                    ende = start.neste;
 
-        if(tom()){ // hvis lista er tom og indeksen er satt til 0
-            h.neste = ny;
-            t.forrige = ny;
+                    start.neste = ny;
+                    ende.forrige = ny;
+
+                    ny.neste = ende;
+                    ny.forrige = start;
+                }
+            }
+            antall++;
+            endringer++;
         }
-        else if (indeks == antall) { // hvis noden skal legges sist:
-            h.neste = ny;
-            ny.forrige = h;
-        }
-        else if (indeks == 0) {
-            h.neste = ny;
-            ny.forrige = h;
-            ny.neste = t;
-        }
-        else {
-           t = ny.neste;
-           h.neste = ny;
-           t.forrige = ny;
-           ny.neste = t;
-           ny.forrige = h;
-        }
-        antall++; // står på riktig sted?
-        endringer++; // står på riktig sted?
     }
 
 

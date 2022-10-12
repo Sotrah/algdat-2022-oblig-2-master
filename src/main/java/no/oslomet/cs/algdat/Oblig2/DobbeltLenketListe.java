@@ -59,7 +59,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         if (a == null) throw new NullPointerException("Lista er tom");
         Node<T> gjeldende = null;
-        Node<T> gamle;
         antall = 0;
         endringer = 0;
         if (a.length > 0) {
@@ -73,7 +72,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 }
             }
             if (hode != null) {
-                gamle = gjeldende;
                 i++;
                 for (; i < a.length; i++) {
                     if (a[i] != null) {
@@ -236,7 +234,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         Node<T> ny = new Node<>(verdi);
         Node<T> h = hode;
-        Node<T> t = hale;
+        Node<T> t;
 
 
         if(antall == 0){ // sett som eneste node i lista
@@ -251,7 +249,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
         else{ // om node hverken skal stå først eller bli eneste i lista loopes det igjennom lista
             int i = 1;
-            Node<T> temp = hode;
+            Node<T> temp;
             for(; i<indeks; i++){
                 h = h.neste;
             }
@@ -435,10 +433,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         // Metode i oppgave 7
         // Måte 1
         Node<T> gjeldende = hode;
-        for (; gjeldende != null; gjeldende = gjeldende.neste){
+        for (; gjeldende != null; gjeldende = null){
             gjeldende.verdi = null;
             gjeldende.forrige = gjeldende.neste = null;
         }
+        assert hode != null;
         hode.neste = null;
         hale.forrige = null;
         antall = 0;
@@ -464,19 +463,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     private class DobbeltLenketListeIterator implements Iterator<T> {
         private Node<T> denne;
-        private boolean fjernOK;
-        private int iteratorendringer;
+        private final int iteratorendringer;
 
         private DobbeltLenketListeIterator() {
             denne = hode;     // p starter på den første i listen
-            fjernOK = false;  // blir sann når next() kalles
             iteratorendringer = endringer;  // teller endringer
         }
 
         private DobbeltLenketListeIterator(int indeks) {
             denne=finnNode(indeks);
             iteratorendringer=endringer;
-            fjernOK=false;
             //Peker "denne" til noden indeks
         }
 
@@ -493,7 +489,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             if (!hasNext()) {
                 throw new NoSuchElementException("Ingen flere elementer");
             }
-            fjernOK = true;
             T hold= denne.verdi;
             denne=denne.neste;
             return hold;
@@ -507,10 +502,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
 
     } // class DobbeltLenketListeIterator
-
-    public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
-        throw new UnsupportedOperationException();
-    }
 
 } // class DobbeltLenketListe
 

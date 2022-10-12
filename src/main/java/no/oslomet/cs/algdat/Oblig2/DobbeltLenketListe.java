@@ -236,7 +236,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         Node<T> ende = hale;
         Node<T> ny = new Node<>(verdi);
 
-        if (indeks >= 0 && indeks <= antall && verdi != null) {
+        if (indeks >= 0 && indeks <= antall) {
             if (tom()) {
                 start.neste = ny;
                 ende.forrige = ny;
@@ -469,19 +469,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     private class DobbeltLenketListeIterator implements Iterator<T> {
         private Node<T> denne;
-        private boolean fjernOK;
         private final int iteratorendringer;
 
         private DobbeltLenketListeIterator() {
             denne = hode;     // p starter på den første i listen
-            fjernOK = false;  // blir sann når next() kalles
             iteratorendringer = endringer;  // teller endringer
         }
 
         private DobbeltLenketListeIterator(int indeks) {
             denne = finnNode(indeks);
             iteratorendringer = endringer;
-            fjernOK = false;
             //Peker "denne" til noden indeks
         }
 
@@ -500,7 +497,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             if (!hasNext()) {
                 throw new NoSuchElementException("Ingen flere elementer");
             }
-            fjernOK = true; //gyldig å fjerne
             T hold = denne.verdi; //holder på verdien
             denne = denne.neste; //Sender verdien videre
             return hold;

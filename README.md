@@ -88,5 +88,3 @@ OPPGAVE 8:
     for så å iterere videre i listen.
     
 ERRORS:
--Warning på linje 239,47. Velger å beholde, syns det er mere leslig
--Warning på linje 478. Velger å beholde, koden kjører ikke uten den (feil error?)

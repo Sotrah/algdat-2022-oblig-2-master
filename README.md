@@ -26,6 +26,12 @@ OPPGAVE 1:
     en ny node om a[i] ikke er null. opprettingen og tildelingen av pekere skjer ved at hale sin 
     neste-peker tildeles den nye verdien, etter dette tildeles selve halen verdien til nevnte peker.
 
+OPPGAVE 2:
+    I oppgave 2 brukte jeg kompendiet (4.3.2) som hjelpemiddel/mal.
+    Gikk frem ved å lage toString for vårt formål,
+    for så å lage omvendtString som var relativt lik bare omvendt.
+    Deretter brukte jeg 3.3.2 f fra kompendiet som hjelpemiddel/mal igjen for leggInn.
+
 OPPGAVE 3a:
     finnNode() ble implementert ved å først deklarere en node "gjeldende". Videre er det
     skrevet en if-setning som sjekker om indeksen er mindre enn lista sin størrelse delt på 2.
@@ -43,6 +49,8 @@ OPPGAVE 3a:
     noden gjeldende blir tildelt nyverdi som metoden tar inn som parameter.
     til slutt returneres T skalUt.
 
+
+
 OPPGAVE 3b:
     subliste() begynner med å kalle fratilKontroll() for å sjekke at intervallet som angis
     er gyldig. Så deklareres en Liste<T> subliste som er den dobbeltlenkede listen vi skal returnere
@@ -54,8 +62,17 @@ OPPGAVE 3b:
     kalles leggInn som legger inn gjeldende i lista. så tildeles gjeldende gjeldende sin neste
     og telleren lengde minkes med 1.
 
+OPPGAVE 4:
+    Her brukte jeg programkode 3.3.3 fra kompendiet. Lagde indeksTil først for så å
+    sette noden til å være hodet til løkken, og verdien å være lik i.
+
 OPPGAVE 5:
-blæblæblæ
+    blæblæblæ
+
+OPPGAVE 6:
+    Her er metodene veldig like, men "letingen" av koden er annerledes. 
+    Fjern med boolean bruker "while" og en haug av if/elseif statements for å lete seg frem å gjøre gitt endring.
+    Mens fjern int bruker "for" og en masse if's.
 
 OPPGAVE 7:
     De to versjonene av metodene starter med å deklarere en node gjeldende som blir tildelt hode.
@@ -64,5 +81,12 @@ OPPGAVE 7:
     Den første metoden har kode i kroppen til for-løkken som sier:
     for hver iterasjon setter gjeldende sin verdi til null, samt dens forrige og neste-peker.
     Den andre metoden har et metodekall til fjern(0) i kroppen til for-løkken.
+
+OPPGAVE 8:
+    Gjorde deloppgavene først med å bringe inn public iteratorene. Så brukte vi iteratoren som returnerer
+    DobbeltLenketListeIterator. Deretter funksjonen next() som sjekker om verdien gitt er gyldig,
+    for så å iterere videre i listen.
     
-    
+ERRORS:
+-Warning på linje 239,47. Velger å beholde, syns det er mere leslig
+-Warning på linje 478. Velger å beholde, koden kjører ikke uten den (feil error?)

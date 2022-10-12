@@ -329,7 +329,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
         return -1;
     }
-    @Override
+    @Override//kode fra 3.3.3
     public boolean inneholder(T verdi){//returnerer true om verdien er i listen
         return indeksTil(verdi) != -1; //kall
     }
@@ -425,7 +425,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     endringer++;
     antall--;
-        return temp;
+    return temp;
 }
 
     @Override
@@ -467,14 +467,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public Iterator<T> iterator(int indeks) {
+        //sjekker om det er gyldig verdi
         indeksKontroll(indeks, false);
+        //returnerer
     return new DobbeltLenketListeIterator(indeks);
     }
 
     private class DobbeltLenketListeIterator implements Iterator<T> {
         private Node<T> denne;
         private boolean fjernOK;
-        private int iteratorendringer;
+        private final int iteratorendringer;
 
         private DobbeltLenketListeIterator() {
             denne = hode;     // p starter på den første i listen
@@ -496,15 +498,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public T next() {
+            //error om endring i iterator ikke stemmer
             if (iteratorendringer != endringer) {
                 throw new ConcurrentModificationException("Iteratorendringer er feil");
             }
+            //error om det ikke er flere verdier/elementer i listen
             if (!hasNext()) {
                 throw new NoSuchElementException("Ingen flere elementer");
             }
-            fjernOK = true;
-            T hold= denne.verdi;
-            denne=denne.neste;
+            fjernOK = true; //gyldig å fjerne
+            T hold= denne.verdi; //holder på verdien
+            denne=denne.neste; //Sender verdien videre
             return hold;
 
         }

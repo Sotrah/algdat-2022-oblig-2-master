@@ -343,15 +343,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
          */
 
         indeksKontroll(indeks, false);
-        Objects.requireNonNull(nyverdi,"Ikke tillatt med null-verdier");
+        if (nyverdi == null) {
+            throw new NullPointerException("kan ikke legge inn en null-verdi!");
+        }
         Node<T> gjeldende = finnNode(indeks);
 
         T skalUt = gjeldende.verdi;
-        if (nyverdi!=null){
-            gjeldende.verdi = nyverdi;
-            endringer++;
-        }
 
+        gjeldende.verdi = nyverdi;
+        endringer++;
         return skalUt;
     }
 

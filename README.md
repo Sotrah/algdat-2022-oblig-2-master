@@ -14,8 +14,8 @@ I oppgaven har vi hatt følgende arbeidsfordeling:
 # Oppgavebeskrivelse
 
 OPPGAVE 1:
-    Først ble de to metodene tom() og antall() implementert. tom() sjekker om hode
-    er null med en enkel if-setning og returnerer true om den er det. ellers returneres false.
+    Først ble de to metodene tom() og antall() implementert. disse returnerer antall
+    og antall == 0 respektivt.
     antall() returnerer kun variablen antall som behandles flere steder i koden.
     KONSTRUKTØREN:
     Konstruktøren tar inn lista a og sjekker om denne er tom. om den er tom kastes en

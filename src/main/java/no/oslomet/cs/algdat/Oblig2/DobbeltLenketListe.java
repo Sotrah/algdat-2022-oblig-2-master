@@ -42,20 +42,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     // Jonas
     public DobbeltLenketListe(T[] a) {
-        // Del av oppgave 1
-        /*
-        * sjekk om a er null og kast evt exception
-        * sjekk a ikke er null og skriv så en for-løkke som oppretter
-        et hode med den første noden i tabellen.
-        * øk tellevariabel med 1
-        * bryt ut av gjeldende løkke når hode er opprettet
-        * sett hale til å være hode. (denne endres for hver gang det legges til en node)
-        * gjør sjekk på om hode != null. hvis ikke økes hjelpevariabel som ble brukt
-        i forrige løkke med 1.
-        * lag en for løkke som går så lenge hjelpevariabelen i er mindre enn størrelsen
-        på a.
-        * hvis den neste verdien i a ikke er null opprettes en ny node, og antall økes med 1.
-        */
 
         if (a == null) throw new NullPointerException("Lista er tom");
         Node<T> gjeldende = null;
@@ -86,19 +72,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public Liste<T> subliste(int fra, int til) {
-        // Første metode i Oppgave 3b
-        // Pseudo:
-        /*
-        * sjekk om intervallet er lovlig. med bruk av fratilKontroll(). denne hentes fra kompendiet og legges inn
-        som privat metode. (bytt ut exception typen for å få riktig feilmelding)
-        * Opprett/instansier en liste og sett riktig lengde med en variabel basert på til - fra.
-        * hvis intervallet er 0/ikke et intervall returneres en tom liste
-        * hvis intervallet er 1 eller større returneres en subliste:
-        * lag en "gjeldende" node (fra)
-        * løkke som kjører så mange ganger som "lengde"-variablen lar den gå. lengde minkes med 1 pr loop
-        * kalle leggInn() og tilegne "gjeldende" en ny verdi før neste runde i løkken
-        * tilegn gjeldende gjeldende sin neste
-        */
+
         fratilKontroll(antall, fra, til);
 
         Liste<T> subliste = new DobbeltLenketListe<>(); //  kalle denne subliste eller kun liste?
@@ -141,12 +115,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     // Jonas
     public boolean tom() {
-        // Andre metode i oppgave 1.
-        /*
-        gjør sjekk om hode har en verdi. om hodet
-        er null skal det returneres true da hodet
-        hadde hatt noe annet enn nullverdi om lista ikke var tom.
-        */
+
         return antall == 0;
     }
 
@@ -277,15 +246,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
 
     private Node<T> finnNode(int indeks) {
-        // Hjelpemetode i oppgave 3a
-        /*
-        * indeksKontroll() er kjørt fra hent()
-        * gjør en sjekk på indeks sin størrelse i forhold til antall. et utfall starter leting fra hale til hode
-        og det andre utfallet starter leting fra hode til hale.
-        * løp igjennom listen fra hode til hale om indeks er mindre enn antall/2
-        * løp igjennom listen fra hale til hode om indeks er større enn antall/2
-        * returner verdien til noden som matcher med indeksen
-        */
 
         Node<T> gjeldende;
 
@@ -308,12 +268,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T hent(int indeks) {
-        // Metode i oppgave 3a
-        // Sliter litt med å forstå oppgaveteksten. går utifra at denne skal kalle finnNode().
-        /*
-         * kjør indeksKontroll() Her for å sjekke gyldigheten av gitt indeks
-         * kall finnNode()
-         */
+
         indeksKontroll(indeks, false);
         return finnNode(indeks).verdi;
         // holder denne eller skal det dannes en node eksplisitt?
@@ -339,13 +294,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
-        // Metode i oppgave 3a
-        /*
-        * kall først indeksKontroll() for å sjekke gyldigheten av gitt indeks
-        * Sjekk at nyverdi ikke er en null-verdi.
-        * finn indeksen hvor nyverdi skal legges inn og returner den tidligere verdien
-        * øk variabel endringer
-        */
 
         indeksKontroll(indeks, false);
         if (nyverdi == null){
